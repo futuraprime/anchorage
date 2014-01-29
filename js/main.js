@@ -59,23 +59,26 @@ anchoragePromise.then(function(data) {
   skycons.play();
 });
 
+function compare(yourlocPromise) {
+  yourlocPromise.then(function(data) {
+    $('#yourloc').html(location_template(data));
+    skycons.add('skycon_'+data.id, calculateSkycon(data));
+  });
+  $.when(anchoragePromise, yourlocPromise).then(function(anchorage, yourloc) {
+    var $result = $('#result');
+    if(anchorage[0].main.temp > yourloc[0].main.temp) {
+      $result.html('YES');
+    } else {
+      $result.html('NO');
+    }
+  });
+}
+
 if("geolocation" in navigator) {
   navigator.geolocation.getCurrentPosition(function(position) {
     var coords = position.coords;
-    // console.log(position,coords.latitude, coords.longitude);
-    var yourlocPromise = getDataForCoords(coords.latitude, coords.longitude)
-    yourlocPromise.then(function(data) {
-      $('#yourloc').html(location_template(data));
-    });
-    $.when(anchoragePromise, yourlocPromise).then(function(anchorage, yourloc) {
-      var $result = $('#result');
-      // console.log('results', anchorage, yourloc);
-      if(anchorage[0].main.temp > yourloc[0].main.temp) {
-        $result.html('YES');
-      } else {
-        $result.html('NO');
-      }
-    });
+    var yourlocPromise = getDataForCoords(coords.latitude, coords.longitude);
+    compare(yourlocPromise);
   }, function(err) {
     // error
   });
