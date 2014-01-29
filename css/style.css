@@ -8,7 +8,9 @@ body {
 h1 {
   font-family: 'kepler-std-display', 'calluna-sans', Helvetica, sans-serif;
   font-style: italic;
-  margin-bottom: 0;
+}
+.top {
+  margin: 20px 10px 0;
   text-align: left;
   font-size: 40px;
 }
@@ -29,6 +31,8 @@ h1 {
 }
 .place {
   margin: 0;
+  font-size: 21px;
+  font-weight: 400;
 }
 .result {
   font-size: 100px;
