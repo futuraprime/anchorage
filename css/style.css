@@ -84,3 +84,12 @@ h1 {
   padding: .33em;
   width: 70%;
 }
+
+.tweet-button {
+  background-color: #00ACEE;
+  color: #e6e6e6;
+  text-decoration: none;
+  display: inline-block;
+  padding: .5em;
+  margin-top: .5em;
+}

@@ -16,7 +16,16 @@ function convertRelativeTemp(tempDiff) {
   return Math.round(tempDiff * 9/5);
 }
 
+function decodeEntities(string) {
+  return $('<div>').html(string).text();
+}
+function encodeWithEntities(string) {
+  return encodeURIComponent(decodeEntities(string));
+}
 Handlebars.registerHelper('convert_temp', convertTemp);
+Handlebars.registerHelper('encodeURIComponent', encodeURIComponent);
+Handlebars.registerHelper('decodeEntities', decodeEntities);
+Handlebars.registerHelper('encodeWithEntities', encodeWithEntities);
 
 function getDataForCoords(lat, lng) {
   return $.getJSON('http://api.openweathermap.org/data/2.5/weather?callback=?', {
@@ -34,8 +43,8 @@ function getDataForLocation(location) {
 var location_template = Handlebars.compile("<canvas class='skycon' id='skycon_{{id}}' width='128' height='128'></canvas><h2 class='place'>{{name}}</h2><div class='temp'>{{{convert_temp main.temp}}}</div>");
 var result_template = Handlebars.compile("\
   <div class='result-main'>{{result}}</div>\
-  <a href='https://twitter.com/share' class='twitter-share-button' data-text='{{tweet_text}}' data-count='none'>Tweet</a>\
-  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>\
+  <div class='result-secondary'>{{{text}}}</div>\
+  <a href='https://twitter.com/share?text={{{encodeWithEntities text}}}&url={{{url}}}' class='tweet-button'><i class='fa fa-twitter fa-lg'></i> Tweet This!</a>\
 ");
 
 function calculateSkycon(data) {
@@ -80,12 +89,14 @@ function compare(yourlocPromise) {
     if(anchorage[0].main.temp > yourloc[0].main.temp) {
       $result.html(result_template({
         result : 'YES',
-        tweet_text : "Brrr! It's "+convertRelativeTemp(tempDiff)+" degrees colder here than Anchorage!"
+        url : window.location.href,
+        text : "Brrr! It&rsquo;s "+convertRelativeTemp(tempDiff)+" degrees colder here than Anchorage!"
       }));
     } else {
       $result.html({
         result : 'NO',
-        tweet_text : "At least it's not as cold as Anchorage."
+        url : window.location.href,
+        text : "Phew! At least it&rsquo;s not as cold as Anchorage."
       });
     }
   });
@@ -117,3 +128,9 @@ if("geolocation" in navigator) {
 } else {
   showInput();
 }
+
+$('body').on('click', 'a.tweet-button', function(evt) {
+  evt.preventDefault();
+  var href = evt.target.href;
+  window.open(href, '_blank', 'height=450,width=600')
+})
