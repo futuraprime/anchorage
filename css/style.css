@@ -1,8 +1,15 @@
+html { min-height: 100%; }
 body {
+  /*min-height: 100%;*/
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
   background-color: #DFE2E6;
   font-family: 'calluna-sans', Helvetica, sans-serif;
   text-align: center;
   color: #222;
+  background-image: url('../img/Anchorage_on_an_April_evening.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 h1 {
@@ -18,12 +25,14 @@ h1 {
 .here, .there {
   position: absolute;
   bottom: 10%;
+  background-color: rgba(255,255,255,.6);
+  padding: 20px;
 }
 .here {
-  right: 20px;
+  right: 0px;
 }
 .there {
-  left: 20px;
+  left: 0px;
 }
 .temp {
   font-size: 60px;
