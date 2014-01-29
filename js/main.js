@@ -74,12 +74,28 @@ function compare(yourlocPromise) {
   });
 }
 
+var $form = $('#location_form');
+var $location = $('#location');
+
+$form.submit(function(evt) {
+  evt.preventDefault();
+  var location = $location.val();
+  var yourlocPromise = getDataForLocation(location);
+  compare(yourlocPromise);
+});
+
+function showInput() {
+  $form.show();
+}
+
 if("geolocation" in navigator) {
   navigator.geolocation.getCurrentPosition(function(position) {
     var coords = position.coords;
     var yourlocPromise = getDataForCoords(coords.latitude, coords.longitude);
     compare(yourlocPromise);
   }, function(err) {
-    // error
+    showInput();
   });
+} else {
+  showInput();
 }
