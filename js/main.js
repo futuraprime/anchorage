@@ -94,11 +94,11 @@ function compare(yourlocPromise) {
         text : "Brrr! It&rsquo;s "+convertRelativeTemp(tempDiff)+" degree"+plural+" colder here than Anchorage!"
       }));
     } else {
-      $result.html({
+      $result.html(result_template({
         result : 'NO',
         url : window.location.href,
         text : "Phew! At least it&rsquo;s not as cold as Anchorage."
-      });
+      }));
     }
   });
 }
