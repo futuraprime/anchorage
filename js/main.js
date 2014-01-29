@@ -81,6 +81,7 @@ $form.submit(function(evt) {
   var location = $location.val();
   var yourlocPromise = getDataForLocation(location);
   compare(yourlocPromise);
+  $form.hide();
 });
 
 function showInput() {
