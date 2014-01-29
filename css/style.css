@@ -2,6 +2,7 @@ body {
   background-color: #DFE2E6;
   font-family: 'calluna-sans', Helvetica, sans-serif;
   text-align: center;
+  color: #222;
 }
 
 h1 {
@@ -27,7 +28,7 @@ h1 {
   line-height: 55px;
 }
 .place {
-  margin-bottom: 0;
+  margin: 0;
 }
 .result {
   font-size: 100px;
@@ -45,4 +46,10 @@ h1 {
   left: 0;
   right: 0;
   font-weight: 400;
+}
+
+.skycon {
+  height: 64px;
+  width: 64px;
+  display: inline-block;
 }

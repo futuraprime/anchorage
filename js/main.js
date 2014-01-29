@@ -4,6 +4,7 @@ var ANCHORAGE_COORD = {
   longitude : 149.9
 };
 var metric = false;
+var skycons = new Skycons({'color': '#222'});
 
 Handlebars.registerHelper('convert_temp', function(temp) {
   var C = (parseFloat(temp) - 273.15);
@@ -25,12 +26,37 @@ function getDataForLocation(location) {
   });
 }
 
-var location_template = Handlebars.compile("<h2 class='place'>{{name}}</h2><div class='temp'>{{{convert_temp main.temp}}}</div>");
+var location_template = Handlebars.compile("<canvas class='skycon' id='skycon_{{id}}' width='128' height='128'></canvas><h2 class='place'>{{name}}</h2><div class='temp'>{{{convert_temp main.temp}}}</div>");
+
+function calculateSkycon(data) {
+  // http://openweathermap.org/wiki/API/Weather_Condition_Codes
+  var daylight = data.weather[0].icon.substr(2) == 'd' ? true : false;
+  var id = parseInt(data.weather[0].id);
+  if(id < 600) { return 'RAIN'; }
+  if(id < 700) { return 'SNOW'; }
+  if(id < 800) { return 'FOG'; }
+  if(id < 802) { return daylight ? 'CLEAR_DAY' : 'CLEAR_NIGHT'; }
+  if(id < 804) { return daylight ? 'PARTLY_CLOUDY_DAY' : 'PARTLY_CLOUDY_NIGHT'; }
+  if(id < 900) { return 'CLOUDY'; }
+  switch(id) {
+    case 900:
+    case 905:
+      return 'WINDY';
+    case 901:
+    case 902:
+      return 'RAIN';
+    case 906:
+      return 'SLEET';
+  }
+  // hopefully that covers it...
+}
 
 var anchoragePromise = getDataForLocation('Anchorage, AK');
 anchoragePromise.then(function(data) {
   // data.name = "Anchorage, AK";
   $('#anchorage').html(location_template(data));
+  skycons.add('skycon_'+data.id, calculateSkycon(data));
+  skycons.play();
 });
 
 if("geolocation" in navigator) {
