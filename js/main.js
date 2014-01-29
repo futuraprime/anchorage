@@ -85,7 +85,7 @@ function compare(yourlocPromise) {
     } else {
       $result.html({
         result : 'NO',
-        tweet_text : "At least it's warmer here than in Anchorage."
+        tweet_text : "At least it's not as cold as Anchorage."
       });
     }
   });
