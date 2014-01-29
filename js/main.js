@@ -126,6 +126,7 @@ function showInput() {
 
 if("geolocation" in navigator) {
   navigator.geolocation.getCurrentPosition(function(position) {
+    $form.hide();
     var coords = position.coords;
     var yourlocPromise = getDataForCoords(coords.latitude, coords.longitude);
     compare(yourlocPromise);
