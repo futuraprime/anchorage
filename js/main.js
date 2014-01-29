@@ -3,13 +3,13 @@ var ANCHORAGE_COORD = {
   latitude : 61.2167,
   longitude : 149.9
 };
-var currentFormat = 'metric';
+var metric = false;
 
 Handlebars.registerHelper('convert_temp', function(temp) {
   var C = (parseFloat(temp) - 273.15);
   var F = C * 9/5 + 32;
   // return Math.round(currentFormat === 'metric' ? C + 'C' : F + 'F');\
-  return currentFormat === 'metric' ? Math.round(C) + '&deg;C' : Math.round(F) + '&deg;F';
+  return metric ? Math.round(C) + '&deg;C' : Math.round(F) + '&deg;F';
 });
 
 function getDataForCoords(lat, lng) {
@@ -25,7 +25,7 @@ function getDataForLocation(location) {
   });
 }
 
-var location_template = Handlebars.compile("<h2 class='place'>{{name}}</h2><h3>Temp: {{{convert_temp main.temp}}}</h3>");
+var location_template = Handlebars.compile("<h2 class='place'>{{name}}</h2><div class='temp'>{{{convert_temp main.temp}}}</div>");
 
 var anchoragePromise = getDataForLocation('Anchorage, AK');
 anchoragePromise.then(function(data) {

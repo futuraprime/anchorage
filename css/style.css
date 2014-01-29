@@ -1,0 +1,23 @@
+body {
+  background-color: #DFE2E6;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.here, .there {
+  position: absolute;
+  bottom: 20px;
+}
+.here {
+  right: 20px;
+}
+.there {
+  left: 20px;
+}
+.temp {
+  font-size: 60px;
+}
+.result {
+  font-size: 100px;
+  font-size: 35vw;
+}
