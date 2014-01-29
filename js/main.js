@@ -1,4 +1,3 @@
-var APP_ID = 'a67740996cd63c22107050fd8ce0bc97';
 var ANCHORAGE_COORD = {
   latitude : 61.2167,
   longitude : 149.9
