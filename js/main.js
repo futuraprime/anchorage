@@ -72,7 +72,7 @@ function calculateSkycon(data) {
 
 var anchoragePromise = getDataForLocation('Anchorage, AK');
 anchoragePromise.then(function(data) {
-  // data.name = "Anchorage, AK";
+  data.name = "Anchorage, AK";
   $('#anchorage').html(location_template(data));
   skycons.add('skycon_'+data.id, calculateSkycon(data));
   skycons.play();
