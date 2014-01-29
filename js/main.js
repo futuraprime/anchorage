@@ -86,11 +86,12 @@ function compare(yourlocPromise) {
   $.when(anchoragePromise, yourlocPromise).then(function(anchorage, yourloc) {
     var $result = $('#result');
     var tempDiff = anchorage[0].main.temp - yourloc[0].main.temp;
+    var plural = convertRelativeTemp(tempDiff) === 1 ? '' : 's';
     if(anchorage[0].main.temp > yourloc[0].main.temp) {
       $result.html(result_template({
         result : 'YES',
         url : window.location.href,
-        text : "Brrr! It&rsquo;s "+convertRelativeTemp(tempDiff)+" degrees colder here than Anchorage!"
+        text : "Brrr! It&rsquo;s "+convertRelativeTemp(tempDiff)+" degree"+plural+" colder here than Anchorage!"
       }));
     } else {
       $result.html({
