@@ -5,12 +5,18 @@ var ANCHORAGE_COORD = {
 var metric = false;
 var skycons = new Skycons({'color': '#222'});
 
-Handlebars.registerHelper('convert_temp', function(temp) {
+function convertTemp(temp) {
   var C = (parseFloat(temp) - 273.15);
   var F = C * 9/5 + 32;
   // return Math.round(currentFormat === 'metric' ? C + 'C' : F + 'F');\
   return metric ? Math.round(C) + '&deg;C' : Math.round(F) + '&deg;F';
-});
+}
+function convertRelativeTemp(tempDiff) {
+  if(metric) { return tempDiff; }
+  return Math.round(tempDiff * 9/5);
+}
+
+Handlebars.registerHelper('convert_temp', convertTemp);
 
 function getDataForCoords(lat, lng) {
   return $.getJSON('http://api.openweathermap.org/data/2.5/weather?callback=?', {
@@ -26,6 +32,11 @@ function getDataForLocation(location) {
 }
 
 var location_template = Handlebars.compile("<canvas class='skycon' id='skycon_{{id}}' width='128' height='128'></canvas><h2 class='place'>{{name}}</h2><div class='temp'>{{{convert_temp main.temp}}}</div>");
+var result_template = Handlebars.compile("\
+  <div class='result-main'>{{result}}</div>\
+  <a href='https://twitter.com/share' class='twitter-share-button' data-text='{{tweet_text}}' data-count='none'>Tweet</a>\
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>\
+");
 
 function calculateSkycon(data) {
   // http://openweathermap.org/wiki/API/Weather_Condition_Codes
@@ -65,10 +76,17 @@ function compare(yourlocPromise) {
   });
   $.when(anchoragePromise, yourlocPromise).then(function(anchorage, yourloc) {
     var $result = $('#result');
+    var tempDiff = anchorage[0].main.temp - yourloc[0].main.temp;
     if(anchorage[0].main.temp > yourloc[0].main.temp) {
-      $result.html('YES');
+      $result.html(result_template({
+        result : 'YES',
+        tweet_text : "Brrr! It's "+convertRelativeTemp(tempDiff)+" degrees colder here than Anchorage!"
+      }));
     } else {
-      $result.html('NO');
+      $result.html({
+        result : 'NO',
+        tweet_text : "At least it's warmer here than in Anchorage."
+      });
     }
   });
 }
