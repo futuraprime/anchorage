@@ -5,7 +5,7 @@ body {
 }
 
 h1 {
-  font-family: 'kepler-std-display', 'calluna-sans', Helvetica, serif;
+  font-family: 'kepler-std-display', 'calluna-sans', Helvetica, sans-serif;
   font-style: italic;
   margin-bottom: 0;
   text-align: left;
@@ -14,7 +14,7 @@ h1 {
 
 .here, .there {
   position: absolute;
-  bottom: 20px;
+  bottom: 10%;
 }
 .here {
   right: 20px;
@@ -24,6 +24,7 @@ h1 {
 }
 .temp {
   font-size: 60px;
+  line-height: 55px;
 }
 .place {
   margin-bottom: 0;
@@ -37,9 +38,11 @@ h1 {
 }
 
 .credits {
+  /*font-family: 'kepler-std', Georgia, serif;*/
   font-size: 14px;
   position: absolute;
   bottom: 10px;
   left: 0;
   right: 0;
+  font-weight: 400;
 }
