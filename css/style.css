@@ -17,6 +17,9 @@ body {
 .temp {
   font-size: 60px;
 }
+.place {
+  margin-bottom: 0;
+}
 .result {
   font-size: 100px;
   font-size: 35vw;
