@@ -35,3 +35,11 @@ h1 {
   line-height: 35vw;
   font-weight: 900;
 }
+
+.credits {
+  font-size: 14px;
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+}
