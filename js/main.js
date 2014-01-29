@@ -3,7 +3,7 @@ var ANCHORAGE_COORD = {
   longitude : 149.9
 };
 var metric = false;
-var skycons = new Skycons({'color': '#222'});
+var skycons = new Skycons({'color': '#111'});
 
 function convertTemp(temp) {
   var C = (parseFloat(temp) - 273.15);
