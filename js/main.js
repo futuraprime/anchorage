@@ -13,7 +13,8 @@ function convertTemp(temp) {
 }
 function convertRelativeTemp(tempDiff) {
   if(metric) { return tempDiff; }
-  return Math.round(tempDiff * 9/5);
+  return Math.round(
+    tempDiff * 9/5);
 }
 
 function decodeEntities(string) {
@@ -85,15 +86,17 @@ function compare(yourlocPromise) {
   });
   $.when(anchoragePromise, yourlocPromise).then(function(anchorage, yourloc) {
     var $result = $('#result');
-    var tempDiff = anchorage[0].main.temp - yourloc[0].main.temp;
+    var anchorageTemp = Math.round(anchorage[0].main.temp);
+    var yourlocTemp = Math.round(yourloc[0].main.temp);
+    var tempDiff = anchorageTemp - yourlocTemp;
     var plural = convertRelativeTemp(tempDiff) === 1 ? '' : 's';
-    if(Math.round(anchorage[0].main.temp) > Math.round(yourloc[0].main.temp)) {
+    if(anchorageTemp > yourlocTemp) {
       $result.html(result_template({
         result : 'YES',
         url : window.location.href,
         text : "Brrr! It&rsquo;s "+convertRelativeTemp(tempDiff)+" degree"+plural+" colder here than Anchorage!"
       }));
-    } else if(Math.round(anchorage[0].main.temp) === Math.round(yourloc[0].main.temp)) {
+    } else if(anchorageTemp === yourlocTemp) {
       $result.html(result_template({
         result : 'NO',
         url : window.location.href,
